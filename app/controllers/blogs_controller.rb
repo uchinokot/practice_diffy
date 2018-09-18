@@ -41,6 +41,7 @@ class BlogsController < ApplicationController
   # PATCH/PUT /blogs/1.json
   def update
     respond_to do |format|
+      @diff = Diffy::Diff.new(@blog.content, blog_params[:content]).to_s(:html_simple)
       if @blog.update(blog_params)
         format.html { redirect_to @blog, notice: 'Blog was successfully updated.' }
         format.json { render :show, status: :ok, location: @blog }
@@ -69,6 +70,6 @@ class BlogsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def blog_params
-      params.require(:blog).permit(:title, :content, :diff)
+      params.require(:blog).permit(:title, :content, :diff).merge(diff: @diff)
     end
 end
