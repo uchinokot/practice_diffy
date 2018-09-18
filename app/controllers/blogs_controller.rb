@@ -41,7 +41,7 @@ class BlogsController < ApplicationController
   # PATCH/PUT /blogs/1.json
   def update
     respond_to do |format|
-      @diff = Diffy::Diff.new(@blog.content, blog_params[:content]).to_s(:html_simple)
+      @diff = Diffy::Diff.new(@blog.content, blog_params[:content], include_plus_and_minus_in_html: true).to_s(:html)
       if @blog.update(blog_params)
         format.html { redirect_to @blog, notice: 'Blog was successfully updated.' }
         format.json { render :show, status: :ok, location: @blog }
